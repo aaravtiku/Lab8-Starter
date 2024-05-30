@@ -47,19 +47,19 @@ self.addEventListener('fetch', function (event) {
   //            network response.
 
   //change this 
-  self.addEventListener('fetch', async (event) => {
-    event.respondWith(async function() {
-        const cache = await caches.open(CACHE_NAME);
-        const cachedResponse = await cache.match(event.request);
-        
-        if (cachedResponse) {
-            return cachedResponse;
-        }
 
-        const networkResponse = await fetch(event.request);
-        cache.put(event.request, networkResponse.clone());
-        return networkResponse;
-    }());
-});
-
+  event.respondWith(
+    caches.open(CACHE_NAME).then(function(cache) {
+        return cache.match(event.request).then(function(response) {
+            if (response) {
+                return response; 
+            } else {
+                return fetch(event.request).then(function(networkResponse) {
+                    cache.put(event.request, networkResponse.clone());
+                    return networkResponse;
+                });
+            }
+        });
+    })
+);
 });
