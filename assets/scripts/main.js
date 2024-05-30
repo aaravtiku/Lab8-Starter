@@ -22,7 +22,7 @@ async function init() {
   try {
       recipes = await getRecipes();
   } catch (err) {
-      console.error('Error fetching recipes:', err);
+      console.error('Error fetching recipes:');
   }
   // Add each recipe to the <main> element
   addRecipesToDocument(recipes);
@@ -72,7 +72,7 @@ async function getRecipes() {
                   resolve(fetchedRecipes);
               }
           } catch (error) {
-              console.error('Error fetching recipe:', error);
+              console.error('Error fetching recipe:');
               reject(error);
           }
       }
