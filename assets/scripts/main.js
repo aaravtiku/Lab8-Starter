@@ -55,29 +55,29 @@ function initializeServiceWorker() {
 * @returns {Array<Object>} An array of recipes found in localStorage
 */
 async function getRecipes() {
-  const storedRecipes = localStorage.getItem('recipes');
-  if (storedRecipes) {
-      return JSON.parse(storedRecipes);
+    const storedRecipes = localStorage.getItem('recipes');
+    if (storedRecipes) {
+        return JSON.parse(storedRecipes);
+    }
+  
+    const fetchedRecipes = [];
+  
+    return new Promise(async (resolve, reject) => {
+        for(let i = 0; i < RECIPE_URLS.length; i++) {
+            try {
+                const response = await fetch(RECIPE_URLS[i]); // Use RECIPE_URLS[i] instead of url
+                const recipe = await response.json();
+                fetchedRecipes.push(recipe);
+                if (fetchedRecipes.length === RECIPE_URLS.length) {
+                    resolve(fetchedRecipes);
+                }
+            } catch (error) {
+                console.error('Error fetching recipe:');
+                reject(error);
+            }
+        }
+    });
   }
-
-  const fetchedRecipes = [];
-
-  return new Promise(async (resolve, reject) => {
-      for(let i = 0; i < RECIPE_URLS.length; i++) {
-          try {
-              const response = await fetch(url);
-              const recipe = await response.json();
-              fetchedRecipes.push(recipe);
-              if (fetchedRecipes.length === RECIPE_URLS.length) {
-                  resolve(fetchedRecipes);
-              }
-          } catch (error) {
-              console.error('Error fetching recipe:');
-              reject(error);
-          }
-      }
-  });
-}
 
 /**
 * Takes in an array of recipes, converts it to a string, and then
