@@ -61,7 +61,7 @@ async function getRecipes() {
     }
   
     const fetchedRecipes = [];
-  
+  //t
     return new Promise(async (resolve, reject) => {
         for(let i = 0; i < RECIPE_URLS.length; i++) {
             try {
