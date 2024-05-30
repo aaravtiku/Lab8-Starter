@@ -65,19 +65,19 @@ async function getRecipes() {
     return new Promise(async (resolve, reject) => {
         for(let i = 0; i < RECIPE_URLS.length; i++) {
             try {
-                const response = await fetch(RECIPE_URLS[i]); // Use RECIPE_URLS[i] instead of url
+                const response = await fetch(RECIPE_URLS[i]); 
                 const recipe = await response.json();
                 fetchedRecipes.push(recipe);
                 if (fetchedRecipes.length === RECIPE_URLS.length) {
                     resolve(fetchedRecipes);
                 }
             } catch (error) {
-                console.error('Error fetching recipe:');
+                console.error('Error fetching recipe:', error); 
                 reject(error);
             }
         }
     });
-  }
+}
 
 /**
 * Takes in an array of recipes, converts it to a string, and then
